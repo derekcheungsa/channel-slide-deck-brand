@@ -50,6 +50,19 @@ Full spec file: `C:\Users\derek\autods\channel_slide_brand_spec.md`
 5. Always include the footer (series name + slide number) on every slide except the title
 6. Use the vertical accent bar on content slides to anchor the left margin
 
+## Diagrams for Decks (vendored diagram-design)
+
+When a deck needs a diagram (architecture, flow, comparison, timeline — 38 editorial types), use the vendored diagram-design subsystem instead of hand-drawing SVG:
+
+1. **Read** `vendor/diagram-design/SKILL.md` first — it is the full instruction set (diagram-type selection, accessible-SVG contract, connector rules, motion, export).
+2. **Style comes pre-skinned:** `vendor/diagram-design/references/style-guide.md` carries the channel brand on the semantic tokens (`paper`/`ink`/`accent`/`muted` = channel values, MiSans + Inter). Do NOT re-skin per diagram — the tokens flow through every diagram type automatically.
+3. **Deck-destined diagrams:** use the `slide-16x9` preset and export `png @2` → **2560×1440**, which drops full-bleed onto the 13.33 × 7.50" slide. The presentation type ramp applies — if it won't fit, drop a level of detail rather than shrinking type.
+4. **Verify before export:** `python vendor/diagram-design/scripts/self_check.py <diagram.html>` must print `OK`. It enforces the accessible-SVG contract (role=img, diagram-prefixed title/desc as first children), single-file safety, and motion rules.
+5. **Fonts:** Inter via the approved Google Fonts `<link>`; MiSans via `@import` inside a `<style>` block — **never a `<link>` tag** (the self-check approves only `fonts.googleapis.com/css2` stylesheet links). Use the exact CDN-declared weights (380/520/630) per the style guide's font-stack section.
+6. **Reset/re-skin:** the pristine upstream default is snapshotted at `~/.diagram-design/profiles/default.md`; upstream's profile verbs (`save`/`load`/`switch`/`reset`) work against it.
+
+Upstream: `cathrynlavery/diagram-design` v2.6, pinned `648c2a5`, MIT — see `vendor/diagram-design/LICENSE` and `THIRD_PARTY_LICENSES.md`. A verified sample lives in `examples/` at the repo root.
+
 ## Pacing & Split Decisions (outro slides specifically)
 
 Before building the deck, decide **one** per slide and confirm with the user when ambiguous. The right number of slides for an outro is "as many as the narration has natural beats, minus one for every beat you cram":
